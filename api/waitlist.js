@@ -21,17 +21,24 @@ export default async function handler(req, res) {
   try {
     const { email } = req.body;
 
+    // Debug logging
+    console.log('=== DEBUG INFO ===');
+    console.log('Email received:', email);
+    console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+    console.log('NOTIFICATION_EMAIL:', process.env.NOTIFICATION_EMAIL);
+    console.log('==================');
+
     // Validate email
     if (!email || !email.includes('@')) {
+      console.log('Email validation failed:', email);
       return res.status(400).json({ error: 'Invalid email address' });
     }
 
-    // Store in database (we'll add this later)
-    // For now, just send emails
+    console.log('Attempting to send email via Resend...');
 
     // Send notification email to you only
-    await resend.emails.send({
-      from: 'ANS Registry <noreply@ansregistry.org>',
+    const result = await resend.emails.send({
+      from: 'onboarding@resend.dev', // Use Resend default for testing
       to: [process.env.NOTIFICATION_EMAIL],
       subject: 'New ANS Registry Waitlist Signup',
       html: `
@@ -48,16 +55,31 @@ export default async function handler(req, res) {
       `
     });
 
+    console.log('Resend response:', result);
+    console.log('Email sent successfully!');
+
     res.status(200).json({ 
       success: true, 
-      message: 'Successfully joined waitlist' 
+      message: 'Successfully joined waitlist',
+      debug: {
+        emailId: result.data?.id,
+        hasApiKey: !!process.env.RESEND_API_KEY,
+        notificationEmail: process.env.NOTIFICATION_EMAIL
+      }
     });
 
   } catch (error) {
     console.error('Waitlist error:', error);
+    console.error('Error details:', error.message);
+    console.error('Error stack:', error.stack);
+    
     res.status(500).json({ 
       error: 'Failed to join waitlist',
-      details: error.message 
+      details: error.message,
+      debug: {
+        hasApiKey: !!process.env.RESEND_API_KEY,
+        notificationEmail: process.env.NOTIFICATION_EMAIL
+      }
     });
   }
 }
