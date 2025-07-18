@@ -6,6 +6,17 @@
     <title>ANS Registry - Agent Name System Research & Development</title>
     <meta name="description" content="Research and development of Agent Name System (ANS) registration protocols. Contributing to open standards for agent:// naming.">
     
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J020DJY5T4"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX';
+    gtag('config', GA_ID);
+    </script>
+    
     <style>
         * {
             margin: 0;
@@ -525,17 +536,17 @@ agent://translate.docs.google.ai
                     <div class="contact-card">
                         <div class="contact-icon">📧</div>
                         <h3>Research Inquiries</h3>
-                        <p>research@ansregistry.org</p>
+                        <p><a href="mailto:research@ansregistry.org" style="color: #667eea;">research@ansregistry.org</a></p>
                     </div>
                     <div class="contact-card">
                         <div class="contact-icon">🤝</div>
                         <h3>Standards Collaboration</h3>
-                        <p>standards@ansregistry.org</p>
+                        <p><a href="mailto:standards@ansregistry.org" style="color: #667eea;">standards@ansregistry.org</a></p>
                     </div>
                     <div class="contact-card">
                         <div class="contact-icon">💻</div>
                         <h3>Developer Interest</h3>
-                        <p>developers@ansregistry.org</p>
+                        <p><a href="mailto:developers@ansregistry.org" style="color: #667eea;">developers@ansregistry.org</a></p>
                     </div>
                 </div>
             </div>
@@ -557,17 +568,43 @@ agent://translate.docs.google.ai
             const email = event.target.querySelector('input[type="email"]').value;
             
             // Simple validation
-            if (!email) {
-                alert('Please enter your email address');
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address');
                 return;
             }
             
-            // Store email (you'd replace this with actual API call)
-            console.log('Email added to waitlist:', email);
-            
-            // Show success message
-            alert('Thanks! We\'ll keep you updated on our research progress.');
-            event.target.reset();
+            // Send to backend (replace with your actual endpoint)
+            fetch('/api/waitlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, timestamp: new Date().toISOString() })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show success message
+                alert('Thanks! We\'ll keep you updated on our research progress.');
+                event.target.reset();
+                
+                // Track conversion
+                gtag('event', 'signup', {
+                    'event_category': 'waitlist',
+                    'event_label': 'early_access'
+                });
+            })
+            .catch(error => {
+                // Fallback - store in localStorage for now
+                const waitlistEmails = JSON.parse(localStorage.getItem('waitlist_emails') || '[]');
+                waitlistEmails.push({
+                    email: email,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('waitlist_emails', JSON.stringify(waitlistEmails));
+                
+                alert('Thanks! We\'ll keep you updated on our research progress.');
+                event.target.reset();
+            });
         }
 
         // Smooth scrolling for anchor links
