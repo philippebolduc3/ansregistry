@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     // Send notification email to you only
     await resend.emails.send({
       from: 'ANS Registry <noreply@ansregistry.org>',
-      to: ['your-email@example.com'], // Replace with your actual email
+      to: [process.env.NOTIFICATION_EMAIL],
       subject: 'New ANS Registry Waitlist Signup',
       html: `
         <h2>New Waitlist Signup</h2>
