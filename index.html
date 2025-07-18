@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANS Registry - Agent Name System Research & Development</title>
+    <meta name="description" content="Research and development of Agent Name System (ANS) registration protocols. Contributing to open standards for agent:// naming.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a5568;
+        }
+        
+        .logo .accent {
+            color: #667eea;
+        }
+        
+        .status-badge {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #667eea;
+        }
+        
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero .description {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.8;
+        }
+        
+        .research-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .research-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #2d3748;
+        }
+        
+        .research-intro {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .research-card {
+            padding: 2rem;
+            background: #f7fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .research-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .research-card p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .standards-section {
+            padding: 80px 0;
+            background: #f7fafc;
+        }
+        
+        .rfc-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .rfc-header {
+            font-family: 'Courier New', monospace;
+            background: #edf2f7;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .coming-soon {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .waitlist-form {
+            max-width: 500px;
+            margin: 2rem auto 0;
+            display: flex;
+            gap: 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        
+        .join-btn {
+            background: #667eea;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .join-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .progress-section {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .progress-item {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .progress-status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .status-done {
+            background: #48bb78;
+        }
+        
+        .status-progress {
+            background: #ed8936;
+        }
+        
+        .status-planned {
+            background: #cbd5e0;
+        }
+        
+        .contact-section {
+            padding: 60px 0;
+            background: #f7fafc;
+            text-align: center;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .waitlist-form {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+        
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+            color: #856404;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="accent">ANS</span> Registry
+                    <span style="font-size: 0.6rem; background: #667eea; color: white; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">FIRST</span>
+                </div>
+                <div class="status-badge">Research Phase</div>
+                <nav>
+                    <ul>
+                        <li><a href="#research">Research</a></li>
+                        <li><a href="#standards">Standards</a></li>
+                        <li><a href="#progress">Progress</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>First ANS Registry Authority</h1>
+                <div class="subtitle">Agent Name System Protocol Pioneer</div>
+                <div class="description">
+                    The first registry authority for Agent Name System (ANS) registration protocols. 
+                    Pioneering agent:// naming standards in collaboration with the community.
+                </div>
+                <div>
+                    <a href="#research" class="btn btn-secondary">Learn About Our Research</a>
+                    <a href="#standards" class="btn btn-secondary">View Draft Standards</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="research-section">
+            <div class="container">
+                <h2>Our Research Focus</h2>
+                <div class="research-intro">
+                    As the first ANS registry authority, we're establishing the foundational protocols for agent:// naming, 
+                    similar to how early DNS pioneers built the foundation of the modern internet.
+                </div>
+                
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>🏗️ First-Mover Infrastructure</h3>
+                        <p>As the pioneering ANS registry authority, we're building the foundational infrastructure 
+                        that will power agent naming for the entire AI ecosystem.</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>🛡️ Security Models</h3>
+                        <p>Developing cryptographic verification methods to ensure agent name ownership 
+                        and prevent squatting or impersonation attacks.</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>🌐 Decentralization</h3>
+                        <p>Exploring both centralized and decentralized approaches to agent name governance, 
+                        balancing efficiency with community control.</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>📚 Standards Leadership</h3>
+                        <p>Leading the development of ANS registration standards and working with OWASP 
+                        and other standards bodies to ensure open, interoperable protocols.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="standards" class="standards-section">
+            <div class="container">
+                <h2>Draft Standards & Specifications</h2>
+                <div class="research-intro">
+                    Early research outputs and draft specifications. These are works in progress.
+                </div>
+                
+                <div class="rfc-preview">
+                    <div class="rfc-header">
+DRAFT - ANS-REG-001: Agent Name Registration Protocol
+Status: Research Phase
+Date: January 2025
+Authors: ANS Registry Research Team
+                    </div>
+                    
+                    <h3>Abstract</h3>
+                    <p>This document proposes a registration protocol for Agent Name System (ANS) 
+                    identifiers using the agent:// URI scheme. The protocol defines registration, 
+                    renewal, transfer, and resolution mechanisms for AI agent naming.</p>
+                    
+                    <h3>Example Agent Name Structure</h3>
+                    <div class="code-block">
+agent://support.company.com
+agent://api.payments.stripe.com
+agent://translate.docs.google.ai
+                    </div>
+                    
+                    <h3>Proposed Registration Flow</h3>
+                    <div class="code-block">
+1. Domain Verification (/.well-known/agent.json)
+2. Cryptographic Proof of Control
+3. Registration in Distributed Ledger
+4. Global Propagation to Resolvers
+                    </div>
+                </div>
+                
+
+            </div>
+        </section>
+
+        <section id="progress" class="progress-section">
+            <div class="container">
+                <h2>Research Progress</h2>
+                
+                <div class="progress-item">
+                    <div class="progress-status status-done"></div>
+                    <div>
+                        <strong>Protocol Research</strong> - Initial analysis of existing naming systems and agent requirements
+                    </div>
+                </div>
+                
+                <div class="progress-item">
+                    <div class="progress-status status-done"></div>
+                    <div>
+                        <strong>Security Model Design</strong> - Cryptographic verification and anti-squatting mechanisms
+                    </div>
+                </div>
+                
+                <div class="progress-item">
+                    <div class="progress-status status-progress"></div>
+                    <div>
+                        <strong>OWASP Collaboration</strong> - Engaging with ANS Working Group on standards development
+                    </div>
+                </div>
+                
+                <div class="progress-item">
+                    <div class="progress-status status-progress"></div>
+                    <div>
+                        <strong>Prototype Development</strong> - Building proof-of-concept registration and resolution system
+                    </div>
+                </div>
+                
+                <div class="progress-item">
+                    <div class="progress-status status-planned"></div>
+                    <div>
+                        <strong>Community Testing</strong> - Open testing with developers and AI platform providers
+                    </div>
+                </div>
+                
+                <div class="progress-item">
+                    <div class="progress-status status-progress"></div>
+                    <div>
+                        <strong>Production Launch</strong> - Operational registry deployment in progress
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="coming-soon">
+            <div class="container">
+                <h2>Get Early Access</h2>
+                <p>Join our early access program for ANS registration services.</p>
+                
+                <form class="waitlist-form" onsubmit="joinWaitlist(event)">
+                    <input type="email" class="email-input" placeholder="your@email.com" required>
+                    <button type="submit" class="join-btn">Join Updates</button>
+                </form>
+                
+                <div style="text-align: center; margin-top: 1rem; color: white;">
+                    <em>Early access program launching soon</em>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Research Collaboration</h2>
+                <p>Interested in contributing to ANS protocol development?</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon">📧</div>
+                        <h3>Research Inquiries</h3>
+                        <p>research@ansregistry.org</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">🤝</div>
+                        <h3>Standards Collaboration</h3>
+                        <p>standards@ansregistry.org</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">💻</div>
+                        <h3>Developer Interest</h3>
+                        <p>developers@ansregistry.org</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ANS Registry Authority - First in Agent Naming</p>
+            <p style="color: #718096; margin-top: 1rem; font-size: 0.9rem;">
+                Pioneering the infrastructure for the Agent Economy
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function joinWaitlist(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            
+            // Simple validation
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            // Store email (you'd replace this with actual API call)
+            console.log('Email added to waitlist:', email);
+            
+            // Show success message
+            alert('Thanks! We\'ll keep you updated on our research progress.');
+            event.target.reset();
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
